@@ -22,14 +22,23 @@ def GetData(stocks):
 def CheckData():
     pass
 
-def HandleData():
-    pass
+def HandleData(rawData):
+    cleanData = list()
+    for dataFrame in rawData:
+        #Convert UNIX timestamps to milliseconds
+        dataFrame['Date'] = dataFrame['timestamp'].apply(
+                              lambda x: pd.to_datetime(x*1000000)) 
+        #Clean up dataframe
+        dataFrame = dataFrame.set_index('Date')
+        dataFrame.drop(columns = ['vwap', 'otc', 'timestamp', 'transactions'], axis=1, inplace=True)
+        cleanData.append(dataFrame)
+    return cleanData
 
 def main():
     stocks = ["AAPL"]
     rawData = GetData(stocks)
     cleanData = HandleData(rawData)
-    print(len(cleanData[0]))
+    print(cleanData[0])
 
 if __name__=="__main__":
     main()
