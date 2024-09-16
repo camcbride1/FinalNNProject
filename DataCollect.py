@@ -3,16 +3,19 @@ import datetime as dt
 import pandas as pd
 from APIKey import getPolygonAPIkey
 
+# Returns list of dataframes for each stock from API 
 def GetData(stocks):
     rawData = list()
     client = RESTClient(getPolygonAPIkey())
     for stock in stocks:
-        rawData.append(pd.DataFrame(client.get_aggs(
-        ticker      = stock,
-        multiplier  = 1,
-        timespan    = 'hour',
-        from_       = '2023-08-01',
-        to          = '2023-08-01')))
+        rawData.append(
+            pd.DataFrame(
+                client.get_aggs(
+                    ticker      = stock,
+                    multiplier  = 1,
+                    timespan    = 'hour',
+                    from_       = '2023-08-01',
+                    to          = '2023-08-01')))
         
     return rawData
 
@@ -25,7 +28,8 @@ def HandleData():
 def main():
     stocks = ["AAPL"]
     rawData = GetData(stocks)
-    print(len(rawData[0]))
+    cleanData = HandleData(rawData)
+    print(len(cleanData[0]))
 
 if __name__=="__main__":
     main()
