@@ -20,9 +20,9 @@ def GetData(stocks):
                 client.get_aggs(
                     ticker      = stock,
                     multiplier  = 1,
-                    timespan    = 'hour',
-                    from_       = datetime(2024, 1, 1, 00, 00, 00),
-                    to          = datetime(2024, 1, 5, 00, 00, 00))))
+                    timespan    = 'day',
+                    from_       = datetime(2024, 8, 1, 00, 00, 00),
+                    to          = datetime(2024, 8, 30, 00, 00, 00))))
         
     return rawData
 
@@ -52,7 +52,7 @@ def main():
 
     for stock in cleanData:
         if not CheckData(stock):
-            stock.to_csv('test.csv', index = True)
+            stock.to_csv('test.csv', mode = 'a', index = True, header = False)
 
 if __name__=="__main__":
     main()
