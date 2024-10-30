@@ -2,6 +2,7 @@ from polygon import RESTClient
 from datetime import datetime
 import datetime as dt
 import pandas as pd
+import time
 from APIKey import getPolygonAPIkey
 
 # Future: 
@@ -12,18 +13,21 @@ from APIKey import getPolygonAPIkey
 # Queries API for stocks in list argument
 # Returns list of dataframes for each stock
 def GetData(stocks):
+    monthLength = [31,28,31,30,31,30,31,31,30,31,30,31]
     rawData = list()
     client = RESTClient(getPolygonAPIkey())
     for stock in stocks:
-        rawData.append(
-            pd.DataFrame(
-                client.get_aggs(
-                    ticker      = stock,
-                    multiplier  = 1,
-                    timespan    = 'day',
-                    from_       = datetime(2024, 8, 1, 00, 00, 00),
-                    to          = datetime(2024, 8, 30, 00, 00, 00))))
-        
+#        for month in range(1,13):
+            rawData.append(
+                pd.DataFrame(
+                    client.get_aggs(
+                        ticker      = stock,
+                        multiplier  = 1,
+                        timespan    = 'day',
+                        from_       = datetime(2024, 1, 1, 00, 00, 00),
+                        to          = datetime(2024, 12, 31, 00, 00, 00))))
+#            time.sleep(10)
+
     return rawData
 
 # Implement in future
@@ -52,7 +56,7 @@ def main():
 
     for stock in cleanData:
         if not CheckData(stock):
-            stock.to_csv('test.csv', mode = 'a', index = True, header = False)
+            stock.to_csv(f'{stocks[0]}_2024.csv', mode = 'w', index = True, header = True)
 
 if __name__=="__main__":
     main()
