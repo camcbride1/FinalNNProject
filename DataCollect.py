@@ -13,7 +13,6 @@ from APIKey import getPolygonAPIkey
 # Queries API for stocks in list argument
 # Returns list of dataframes for each stock
 def GetData(stocks):
-    monthLength = [31,28,31,30,31,30,31,31,30,31,30,31]
     rawData = list()
     client = RESTClient(getPolygonAPIkey())
     for stock in stocks:
@@ -24,8 +23,8 @@ def GetData(stocks):
                         ticker      = stock,
                         multiplier  = 1,
                         timespan    = 'day',
-                        from_       = datetime(2024, 1, 1, 00, 00, 00),
-                        to          = datetime(2024, 12, 31, 00, 00, 00))))
+                        from_       = datetime(2024, 10, 1, 00, 00, 00),
+                        to          = datetime(2024, 10, 31, 00, 00, 00))))
 #            time.sleep(10)
 
     return rawData
@@ -56,7 +55,7 @@ def main():
 
     for stock in cleanData:
         if not CheckData(stock):
-            stock.to_csv(f'{stocks[0]}_2024.csv', mode = 'w', index = True, header = True)
+            stock.to_csv(f'{stocks[0]}_October_2024.csv', mode = 'w', index = True, header = True)
 
 if __name__=="__main__":
     main()
