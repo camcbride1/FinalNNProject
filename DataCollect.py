@@ -23,8 +23,8 @@ def GetData(stocks):
                         ticker      = stock,
                         multiplier  = 1,
                         timespan    = 'day',
-                        from_       = datetime(2024, 10, 1, 00, 00, 00),
-                        to          = datetime(2024, 10, 31, 00, 00, 00))))
+                        from_       = datetime(2023, 1, 1, 00, 00, 00),
+                        to          = datetime(2024, 9, 30, 00, 00, 00))))
 #            time.sleep(10)
 
     return rawData
@@ -49,13 +49,13 @@ def HandleData(rawData):
     return cleanData
 
 def main():
-    stocks = ["AAPL"]
+    stocks = ["GPRO"]
     rawData = GetData(stocks)
     cleanData = HandleData(rawData)
 
     for stock in cleanData:
         if not CheckData(stock):
-            stock.to_csv(f'{stocks[0]}_October_2024.csv', mode = 'w', index = True, header = True)
+            stock.to_csv(f'{stocks[0]}_Data.csv', mode = 'w', index = True, header = True)
 
 if __name__=="__main__":
     main()
